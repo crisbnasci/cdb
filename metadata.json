@@ -1,0 +1,5 @@
+{
+  "name": "CDB Sheets",
+  "description": "A comprehensive investment tracker for fixed-income assets (CDB), featuring regressive tax calculations, monthly evolution tracking, and portfolio management.",
+  "requestFramePermissions": []
+}
