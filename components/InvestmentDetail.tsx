@@ -3,6 +3,7 @@ import React, { useMemo, useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { Investment, CalculatedRow, Withdrawal } from '../types';
 import { calculateInvestmentEvolution, formatCurrency, formatPercent, formatDateBR, formatMonthYear } from '../services/investmentCalculator';
+import CalendarModal from './CalendarModal';
 
 interface InvestmentDetailProps {
   investments: Investment[];
@@ -27,6 +28,7 @@ const InvestmentDetail: React.FC<InvestmentDetailProps> = ({
   const [showWithdrawForm, setShowWithdrawForm] = useState(false);
   const [withdrawAmount, setWithdrawAmount] = useState('');
   const [withdrawDate, setWithdrawDate] = useState(new Date().toISOString().split('T')[0]);
+  const [selectedCalendarMonth, setSelectedCalendarMonth] = useState<string | null>(null);
 
   const evolution = useMemo(() => investment ? calculateInvestmentEvolution(investment) : [], [investment]);
   const current = evolution.length > 0 ? evolution[evolution.length - 1] : null;
@@ -323,9 +325,14 @@ const InvestmentDetail: React.FC<InvestmentDetailProps> = ({
                         {formatDateBR(row.withdrawalDate)}
                       </td>
                       <td className="p-3 text-center border-r border-gray-200">
-                        <span className="bg-blue-50 text-blue-700 px-1.5 py-0.5 rounded border border-blue-100 font-bold text-xs" title={`${row.daysInvested} dias corridos`}>
+                        <button
+                          onClick={() => setSelectedCalendarMonth(row.monthYear)}
+                          className="bg-blue-50 hover:bg-blue-100 text-blue-700 px-2 py-0.5 rounded border border-blue-100 font-bold text-xs transition-colors cursor-pointer flex items-center gap-1 mx-auto"
+                          title="Ver calendário de dias úteis"
+                        >
                           {row.businessDays}
-                        </span>
+                          <span className="material-symbols-outlined text-[12px]">calendar_month</span>
+                        </button>
                       </td>
                       <td className="p-3 text-right border-r border-gray-200">
                         <input
@@ -412,6 +419,13 @@ const InvestmentDetail: React.FC<InvestmentDetailProps> = ({
           </div>
         </div>
       </div>
+
+      {selectedCalendarMonth && (
+        <CalendarModal
+          monthYear={selectedCalendarMonth}
+          onClose={() => setSelectedCalendarMonth(null)}
+        />
+      )}
     </div>
   );
 };

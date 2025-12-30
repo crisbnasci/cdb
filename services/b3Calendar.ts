@@ -30,8 +30,8 @@ function calculateEaster(year: number): Date {
  * Gera todos os feriados B3 para um ano específico
  * Inclui feriados fixos e móveis
  */
-function generateHolidaysForYear(year: number): string[] {
-    const holidays: string[] = [];
+function generateHolidaysForYear(year: number): Map<string, string> {
+    const holidays = new Map<string, string>();
     const easter = calculateEaster(year);
 
     // Função auxiliar para adicionar dias a uma data
@@ -52,13 +52,13 @@ function generateHolidaysForYear(year: number): string[] {
     // === FERIADOS FIXOS ===
 
     // 1º de Janeiro - Confraternização Universal
-    holidays.push(`${year}-01-01`);
+    holidays.set(`${year}-01-01`, 'Confraternização Universal');
 
     // 21 de Abril - Tiradentes
-    holidays.push(`${year}-04-21`);
+    holidays.set(`${year}-04-21`, 'Tiradentes');
 
     // 1º de Maio - Dia do Trabalho
-    holidays.push(`${year}-05-01`);
+    holidays.set(`${year}-05-01`, 'Dia do Trabalho');
 
     // 7 de Setembro - Independência (não é feriado bancário B3, mas sim nacional)
     // A B3 funciona normalmente, então NÃO incluímos
@@ -70,52 +70,52 @@ function generateHolidaysForYear(year: number): string[] {
     // A B3 funciona normalmente, então NÃO incluímos
 
     // 15 de Novembro - Proclamação da República
-    holidays.push(`${year}-11-15`);
+    holidays.set(`${year}-11-15`, 'Proclamação da República');
 
     // 20 de Novembro - Consciência Negra (feriado nacional a partir de 2024)
     if (year >= 2024) {
-        holidays.push(`${year}-11-20`);
+        holidays.set(`${year}-11-20`, 'Dia da Consciência Negra');
     }
 
     // 24 de Dezembro - Véspera de Natal (sem negociações B3)
-    holidays.push(`${year}-12-24`);
+    holidays.set(`${year}-12-24`, 'Véspera de Natal (B3 Fechada)');
 
     // 25 de Dezembro - Natal
-    holidays.push(`${year}-12-25`);
+    holidays.set(`${year}-12-25`, 'Natal');
 
     // 31 de Dezembro - Véspera de Ano Novo (sem negociações B3)
-    holidays.push(`${year}-12-31`);
+    holidays.set(`${year}-12-31`, 'Véspera de Ano Novo (B3 Fechada)');
 
     // === FERIADOS MÓVEIS (baseados na Páscoa) ===
 
     // Carnaval: 47 dias antes da Páscoa (segunda-feira)
     const carnivalMonday = addDays(easter, -48);
-    holidays.push(formatDate(carnivalMonday));
+    holidays.set(formatDate(carnivalMonday), 'Carnaval (Segunda)');
 
     // Carnaval: 46 dias antes da Páscoa (terça-feira)
     const carnivalTuesday = addDays(easter, -47);
-    holidays.push(formatDate(carnivalTuesday));
+    holidays.set(formatDate(carnivalTuesday), 'Carnaval (Terça)');
 
     // Sexta-feira Santa: 2 dias antes da Páscoa
     const goodFriday = addDays(easter, -2);
-    holidays.push(formatDate(goodFriday));
+    holidays.set(formatDate(goodFriday), 'Paixão de Cristo');
 
     // Corpus Christi: 60 dias após a Páscoa
     const corpusChristi = addDays(easter, 60);
-    holidays.push(formatDate(corpusChristi));
+    holidays.set(formatDate(corpusChristi), 'Corpus Christi');
 
     return holidays;
 }
 
 // Cache de feriados gerados
-const holidayCache: Map<number, Set<string>> = new Map();
+const holidayCache: Map<number, Map<string, string>> = new Map();
 
 /**
- * Obtém o conjunto de feriados para um ano (com cache)
+ * Obtém o mapa de feriados para um ano (com cache)
  */
-function getHolidaysForYear(year: number): Set<string> {
+function getHolidaysForYear(year: number): Map<string, string> {
     if (!holidayCache.has(year)) {
-        holidayCache.set(year, new Set(generateHolidaysForYear(year)));
+        holidayCache.set(year, generateHolidaysForYear(year));
     }
     return holidayCache.get(year)!;
 }
@@ -132,12 +132,20 @@ function formatDateKey(date: Date): string {
 
 /**
  * Verifica se uma data é feriado B3
- * Gera feriados dinamicamente para qualquer ano
  */
 export function isHoliday(date: Date): boolean {
     const year = date.getFullYear();
     const holidays = getHolidaysForYear(year);
     return holidays.has(formatDateKey(date));
+}
+
+/**
+ * Retorna o nome do feriado, se houver
+ */
+export function getHolidayName(date: Date): string | undefined {
+    const year = date.getFullYear();
+    const holidays = getHolidaysForYear(year);
+    return holidays.get(formatDateKey(date));
 }
 
 /**
@@ -249,5 +257,5 @@ export function getFirstBusinessDayOfMonth(year: number, month: number): Date {
  * Lista todos os feriados de um ano (útil para debug/verificação)
  */
 export function getHolidaysList(year: number): string[] {
-    return generateHolidaysForYear(year).sort();
+    return Array.from(generateHolidaysForYear(year).keys()).sort();
 }
