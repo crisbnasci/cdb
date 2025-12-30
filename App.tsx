@@ -3,6 +3,7 @@ import React, { useState, useEffect } from 'react';
 import { HashRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import { Investment, MonthlyRecord, Withdrawal } from './types';
 import { INITIAL_DATA } from './constants';
+import { getLastBusinessDayOfMonth } from './services/b3Calendar';
 import Layout from './components/Layout';
 import Dashboard from './components/Dashboard';
 import InvestmentDetail from './components/InvestmentDetail';
@@ -211,12 +212,12 @@ const App: React.FC = () => {
       const nextDate = new Date(year, month, 1); // month (1-12) becomes next month in 0-indexed
       nextMonth = `${nextDate.getFullYear()}-${String(nextDate.getMonth() + 1).padStart(2, '0')}`;
 
-      const lastDay = new Date(nextDate.getFullYear(), nextDate.getMonth() + 1, 0);
+      const lastDay = getLastBusinessDayOfMonth(nextDate.getFullYear(), nextDate.getMonth());
       nextWithdrawal = `${lastDay.getFullYear()}-${String(lastDay.getMonth() + 1).padStart(2, '0')}-${String(lastDay.getDate()).padStart(2, '0')}`;
     } else {
       const d = new Date(investment.startDate + 'T00:00:00');
       nextMonth = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}`;
-      const lastDay = new Date(d.getFullYear(), d.getMonth() + 1, 0);
+      const lastDay = getLastBusinessDayOfMonth(d.getFullYear(), d.getMonth());
       nextWithdrawal = `${lastDay.getFullYear()}-${String(lastDay.getMonth() + 1).padStart(2, '0')}-${String(lastDay.getDate()).padStart(2, '0')}`;
     }
 
