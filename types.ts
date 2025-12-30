@@ -39,14 +39,17 @@ export interface Investment {
 export interface CalculatedRow {
   monthYear: string;
   withdrawalDate: string;
-  daysInvested: number;
+  daysInvested: number;      // Dias corridos desde o início (para IR)
+  businessDays: number;       // Dias úteis no período (para rendimento)
   cdiRate: number;
   grossReturn: number;
+  accumulatedGross: number;   // Rendimento bruto acumulado total
   irRate: number;
   irValue: number;
   netReturn: number;
   withdrawalAmount: number;
-  totalBalance: number;
+  totalBalance: number;       // Saldo bruto (sem IR)
+  netBalance: number;         // Saldo líquido estimado (com IR)
   isCurrent: boolean;
 }
 

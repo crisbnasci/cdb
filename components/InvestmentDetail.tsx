@@ -298,15 +298,16 @@ const InvestmentDetail: React.FC<InvestmentDetailProps> = ({
               <table className="w-full text-left border-collapse">
                 <thead>
                   <tr className="bg-gray-100 border-b border-gray-300">
-                    <th className="sticky left-0 z-10 bg-gray-100 p-3 text-xs font-semibold text-gray-600 uppercase tracking-wider min-w-[140px] border-r border-gray-300">Mês</th>
-                    <th className="p-3 text-xs font-semibold text-gray-600 uppercase tracking-wider min-w-[160px] border-r border-gray-300">Data de Saque</th>
-                    <th className="p-3 text-xs font-semibold text-gray-600 uppercase tracking-wider min-w-[140px] text-right border-r border-gray-300">Taxa CDI (%)</th>
-                    <th className="p-3 text-xs font-semibold text-gray-600 uppercase tracking-wider min-w-[140px] text-right border-r border-gray-300">Retorno Bruto</th>
-                    <th className="p-3 text-xs font-semibold text-gray-600 uppercase tracking-wider min-w-[120px] text-center border-r border-gray-300">Alíquota IR</th>
-                    <th className="p-3 text-xs font-semibold text-primary uppercase tracking-wider min-w-[140px] text-right bg-green-50/50 border-r border-gray-300">Retorno Líquido</th>
-                    <th className="p-3 text-xs font-semibold text-orange-600 uppercase tracking-wider min-w-[100px] text-right border-r border-gray-300">Saques</th>
-                    <th className="p-3 text-xs font-semibold text-gray-600 uppercase tracking-wider min-w-[160px] text-right border-r border-gray-300">Saldo Atual</th>
-                    <th className="p-3 text-xs font-semibold text-gray-600 uppercase tracking-wider min-w-[80px] text-center">Ações</th>
+                    <th className="sticky left-0 z-10 bg-gray-100 p-3 text-xs font-semibold text-gray-600 uppercase tracking-wider min-w-[120px] border-r border-gray-300">Mês</th>
+                    <th className="p-3 text-xs font-semibold text-gray-600 uppercase tracking-wider min-w-[100px] text-center border-r border-gray-300">Data Saque</th>
+                    <th className="p-3 text-xs font-semibold text-gray-600 uppercase tracking-wider min-w-[60px] text-center border-r border-gray-300" title="Dias úteis no período">D.U.</th>
+                    <th className="p-3 text-xs font-semibold text-gray-600 uppercase tracking-wider min-w-[80px] text-right border-r border-gray-300">CDI</th>
+                    <th className="p-3 text-xs font-semibold text-gray-600 uppercase tracking-wider min-w-[100px] text-right border-r border-gray-300">Bruto</th>
+                    <th className="p-3 text-xs font-semibold text-gray-600 uppercase tracking-wider min-w-[60px] text-center border-r border-gray-300" title="Alíquota IR (dias corridos)">IR</th>
+                    <th className="p-3 text-xs font-semibold text-primary uppercase tracking-wider min-w-[100px] text-right bg-green-50/50 border-r border-gray-300">Líquido</th>
+                    <th className="p-3 text-xs font-semibold text-orange-600 uppercase tracking-wider min-w-[80px] text-right border-r border-gray-300">Saques</th>
+                    <th className="p-3 text-xs font-semibold text-gray-600 uppercase tracking-wider min-w-[120px] text-right border-r border-gray-300" title="Saldo bruto acumulado">Saldo</th>
+                    <th className="p-3 text-xs font-semibold text-gray-600 uppercase tracking-wider min-w-[60px] text-center">Ações</th>
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-gray-200 text-sm tabular-nums text-gray-800">
@@ -318,7 +319,14 @@ const InvestmentDetail: React.FC<InvestmentDetailProps> = ({
                           <span>{formatMonthYear(row.monthYear)}</span>
                         </div>
                       </td>
-                      <td className="p-3 border-r border-gray-200">{formatDateBR(row.withdrawalDate)}</td>
+                      <td className="p-3 text-center border-r border-gray-200 text-xs text-gray-600">
+                        {formatDateBR(row.withdrawalDate)}
+                      </td>
+                      <td className="p-3 text-center border-r border-gray-200">
+                        <span className="bg-blue-50 text-blue-700 px-1.5 py-0.5 rounded border border-blue-100 font-bold text-xs" title={`${row.daysInvested} dias corridos`}>
+                          {row.businessDays}
+                        </span>
+                      </td>
                       <td className="p-3 text-right border-r border-gray-200">
                         <input
                           type="number"
@@ -328,18 +336,18 @@ const InvestmentDetail: React.FC<InvestmentDetailProps> = ({
                             const record = investment.monthlyRecords.find(r => r.monthYear === row.monthYear);
                             if (record) onUpdateMonth(investment.id, record.id, { cdiRate: parseFloat(e.target.value) });
                           }}
-                          className="w-20 text-right bg-transparent border-none p-0 focus:ring-0 text-sm font-mono"
+                          className="w-16 text-right bg-transparent border-none p-0 focus:ring-0 text-sm font-mono"
                         />%
                       </td>
                       <td className="p-3 text-green-600 font-medium text-right border-r border-gray-200">+{formatCurrency(row.grossReturn)}</td>
-                      <td className="p-3 text-center border-r border-gray-200">
+                      <td className="p-3 text-center border-r border-gray-200" title={`${row.daysInvested} dias corridos`}>
                         <span className="bg-red-50 text-red-600 px-2 py-0.5 rounded border border-red-100 font-bold text-xs">{row.irRate}%</span>
                       </td>
                       <td className="p-3 text-primary font-bold text-right bg-green-50/30 border-r border-gray-200">{formatCurrency(row.netReturn)}</td>
                       <td className="p-3 text-orange-600 text-right border-r border-gray-200 font-bold">
                         {row.withdrawalAmount > 0 ? `-${formatCurrency(row.withdrawalAmount)}` : '--'}
                       </td>
-                      <td className="p-3 font-semibold text-right text-gray-900 border-r border-gray-200">{formatCurrency(row.totalBalance)}</td>
+                      <td className="p-3 font-semibold text-right text-gray-900 border-r border-gray-200" title={`Líquido: ${formatCurrency(row.netBalance)}`}>{formatCurrency(row.totalBalance)}</td>
                       <td className="p-3 text-center">
                         <button
                           onClick={() => {
