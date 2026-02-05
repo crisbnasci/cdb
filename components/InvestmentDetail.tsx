@@ -420,6 +420,54 @@ const InvestmentDetail: React.FC<InvestmentDetailProps> = ({
         </div>
       </div>
 
+      {/* Resumo Acumulado (Estilo C6 Bank) */}
+      <div className="flex justify-center mt-2 mb-8">
+        <div className="w-full max-w-md bg-[#1c1c1e] text-white rounded-2xl shadow-2xl overflow-hidden border border-neutral-800 font-sans">
+          <div className="p-5 flex justify-between items-center bg-[#1c1c1e] border-b border-neutral-800 pb-5">
+            <span className="font-bold text-sm tracking-wide text-gray-200">Valor líq. para resgate</span>
+            <span className="font-bold text-xl tracking-tight">
+              {formatCurrency(current ? current.netBalance : investment.initialValue)}
+            </span>
+          </div>
+
+          <div className="p-5 space-y-4 text-sm font-medium">
+            <div className="flex justify-between items-center text-gray-300">
+              <span>Total investido</span>
+              <span className="font-semibold text-white tracking-wide">
+                {formatCurrency(investment.initialValue)}
+              </span>
+            </div>
+
+            <div className="flex justify-between items-center text-gray-300">
+              <span>Rendimento</span>
+              <span className="font-bold text-green-500 tracking-wide">
+                +{formatCurrency(current ? current.accumulatedGross : 0)}
+              </span>
+            </div>
+
+            <div className="flex justify-between items-center text-gray-300">
+              <span>IOF sobre rendimento</span>
+              <span className="font-semibold text-white tracking-wide">R$ 0,00</span>
+            </div>
+
+            <div className="flex justify-between items-center text-gray-300">
+              <span>IR sobre rendimento</span>
+              <span className="font-bold text-red-400 tracking-wide">
+                -{formatCurrency(current ? (current.accumulatedGross * (current.irRate / 100)) : 0)}
+              </span>
+            </div>
+
+            <div className="pt-4 mt-2 border-t border-neutral-800 flex justify-between items-center text-gray-400">
+              <span>Valor em análise ou bloqueado</span>
+              <span className="flex items-center gap-1 font-semibold text-white">
+                R$ 0,00
+                <span className="material-symbols-outlined text-[16px] text-blue-400">info</span>
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+
       {selectedCalendarMonth && (
         <CalendarModal
           monthYear={selectedCalendarMonth}
