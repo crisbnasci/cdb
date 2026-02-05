@@ -1,0 +1,21 @@
+﻿=== C├üLCULO REVERSO PRECISO ===
+Principal: R$ 55000.00
+Rendimento bruto esperado: R$ 715.77
+Montante final: R$ 55715.77
+Dias ├║teis: 24
+
+Taxa di├íria efetiva (102% CDI): 0.05388970%
+Taxa CDI di├íria (100%): 0.05283304%
+Taxa CDI anual equivalente: 14.2369%
+
+=== VERIFICA├ç├âO ===
+Montante calculado: R$ 55715.77
+Rendimento bruto calculado: R$ 715.77
+Diferen├ºa: R$ 0.0000
+
+=== TESTE COM CDI 14.24% ===
+Taxa CDI anual: 14.24%
+Taxa CDI di├íria (100%): 0.05284384%
+Taxa efetiva di├íria (102%): 0.05390072%
+Rendimento bruto com CDI 14.24%: R$ 715.92
+Diferen├ºa do esperado: R$ 0.15

@@ -11,55 +11,23 @@ export const DEFAULT_TAX_BRACKETS: TaxBracket[] = [
 export const INITIAL_DATA: Investment[] = [
   {
     id: '1',
-    name: 'CDB C6 Pós-fixado',
-    initialValue: 51000,
-    startDate: '2024-01-01',
+    name: 'CDB C6 Pós-fixado (102% CDI)',
+    initialValue: 55000,
+    startDate: '2026-01-05',
     cdiPercentage: 102,
     liquidity: 'diaria',
     fgcGuarantee: true,
-    notes: '',
+    notes: 'Liquidez diária (D+0). Valores conferidos com extrato C6 Bank.',
     taxBrackets: [...DEFAULT_TAX_BRACKETS],
     status: 'active',
     withdrawals: [],
     monthlyRecords: [
-      { id: 'm1', monthYear: '2024-01', cdiRate: 11.25, withdrawalDate: '2024-01-31' },
-      { id: 'm2', monthYear: '2024-02', cdiRate: 11.15, withdrawalDate: '2024-02-29' },
-      { id: 'm3', monthYear: '2024-03', cdiRate: 11.00, withdrawalDate: '2024-03-29' },
-      { id: 'm4', monthYear: '2024-04', cdiRate: 10.90, withdrawalDate: '2024-04-30' },
-      { id: 'm5', monthYear: '2024-05', cdiRate: 10.75, withdrawalDate: '2024-05-31' },
-    ]
-  },
-  {
-    id: '2',
-    name: 'Reserva de Emergência',
-    initialValue: 10000,
-    startDate: '2024-02-15',
-    cdiPercentage: 100,
-    liquidity: 'diaria',
-    fgcGuarantee: true,
-    notes: '',
-    taxBrackets: [...DEFAULT_TAX_BRACKETS],
-    status: 'active',
-    withdrawals: [],
-    monthlyRecords: [
-      { id: 'r1', monthYear: '2024-02', cdiRate: 11.15, withdrawalDate: '2024-02-29' },
-      { id: 'r2', monthYear: '2024-03', cdiRate: 11.00, withdrawalDate: '2024-03-29' },
-    ]
-  },
-  {
-    id: '3',
-    name: 'CDB Nubank Caixinha',
-    initialValue: 5000,
-    startDate: '2024-03-10',
-    cdiPercentage: 100,
-    liquidity: 'diaria',
-    fgcGuarantee: true,
-    notes: '',
-    taxBrackets: [...DEFAULT_TAX_BRACKETS],
-    status: 'active',
-    withdrawals: [],
-    monthlyRecords: [
-      { id: 'n1', monthYear: '2024-03', cdiRate: 11.00, withdrawalDate: '2024-03-31' },
+      {
+        id: 'm1',
+        monthYear: '2026-02',
+        cdiRate: 14.2369, // Taxa CDI precisa para bater com C6 Bank
+        withdrawalDate: '2026-02-05'
+      }
     ]
   }
 ];

@@ -34,10 +34,13 @@ export function calculateCompoundReturn(
 }
 
 /**
- * Calcula a evolução mensal do investimento usando metodologia B3
- * - CDI diário: (1 + CDI_anual)^(1/252) - 1
- * - Capitalização diária real
+ * Calcula a evolução mensal do investimento usando metodologia C6 Bank
+ * - CDI diário acumulado sobre dias úteis reais
+ * - Capitalização diária composta: FV = PV × (1 + taxa_diária)^dias_úteis
  * - IR apenas no resgate (dias corridos)
+ * 
+ * IMPORTANTE: Esta função agora usa a taxa CDI mensal informada para calcular
+ * a taxa diária equivalente, aplicando-a sobre os dias úteis reais do período.
  */
 export function calculateInvestmentEvolution(investment: Investment): CalculatedRow[] {
   const rows: CalculatedRow[] = [];
@@ -60,25 +63,34 @@ export function calculateInvestmentEvolution(investment: Investment): Calculated
       // Primeiro mês: usa data de início do investimento
       periodStart = new Date(startDate);
     } else {
-      // Meses seguintes: início do mês
-      periodStart = new Date(year, month - 1, 1);
+      // Meses seguintes: dia seguinte ao último saque
+      const prevRecord = sortedRecords[index - 1];
+      const prevEndDate = new Date(prevRecord.withdrawalDate + 'T00:00:00');
+      periodStart = new Date(prevEndDate);
+      periodStart.setDate(periodStart.getDate() + 1);
     }
 
     // Data final do período (data de saque/fechamento do mês)
     const periodEnd = new Date(record.withdrawalDate + 'T00:00:00');
 
-    // Calcular dias úteis no período
+    // Calcular dias úteis no período (INCLUSIVE em ambas as pontas)
     const businessDays = countBusinessDays(periodStart, periodEnd);
 
     // Calcular dias corridos desde o início (para IR)
     const calendarDaysFromStart = countCalendarDays(startDate, periodEnd);
 
-    // Calcular taxa diária ajustada pelo % do CDI
-    const adjustedAnnualRate = (record.cdiRate / 100) * (investment.cdiPercentage / 100);
-    const dailyRate = calculateDailyRate(adjustedAnnualRate);
+    // Calcular taxa diária do CDI (100%)
+    // A taxa CDI informada (record.cdiRate) é a taxa anual em percentual
+    // Primeiro convertemos para taxa diária, DEPOIS aplicamos o percentual do investimento
+    const cdiAnnualRate = record.cdiRate / 100; // Ex: 14.2369% -> 0.142369
+    const cdiDailyRate = calculateDailyRate(cdiAnnualRate); // Taxa diária do CDI puro
 
-    // Calcular rendimento bruto com capitalização diária
-    // Fórmula: Rendimento = Saldo × ((1 + taxa_diaria)^dias_uteis - 1)
+    // Aplicar o percentual do investimento (ex: 102%) à taxa diária
+    const dailyRate = cdiDailyRate * (investment.cdiPercentage / 100);
+
+    // Calcular rendimento bruto com capitalização diária composta
+    // Fórmula: FV = PV × (1 + r)^n
+    // Rendimento = FV - PV = PV × [(1 + r)^n - 1]
     const grossReturn = currentBalance * (Math.pow(1 + dailyRate, businessDays) - 1);
 
     // Acumular rendimento bruto total
@@ -87,12 +99,13 @@ export function calculateInvestmentEvolution(investment: Investment): Calculated
     // Determinar alíquota de IR (baseada em dias corridos desde o início)
     const irRate = findTaxRate(calendarDaysFromStart, investment.taxBrackets);
 
-    // Calcular IR sobre o rendimento do período
-    // NOTA: Na prática, o IR só é cobrado no resgate, mas mostramos a estimativa
+    // Calcular IR sobre o rendimento acumulado total
+    // IMPORTANTE: O IR incide sobre TODO o rendimento acumulado, não apenas do período
+    // Mas para exibição mensal, mostramos o IR proporcional ao rendimento do período
     const irValue = grossReturn * (irRate / 100);
     const netReturn = grossReturn - irValue;
 
-    // Atualizar saldo (para o próximo período)
+    // Atualizar saldo bruto (para o próximo período)
     currentBalance += grossReturn;
 
     // Aplicar saques do mês

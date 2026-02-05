@@ -1,0 +1,32 @@
+﻿=== TESTE COM DADOS C6 BANK ===
+
+Investimento: CDB C6 P├│s-fixado (Teste)
+Valor inicial: R$ 55000.00
+Per├¡odo: 05/01/2026 a 05/02/2026
+Rentabilidade: 102% do CDI
+Taxa CDI anual: 14.2369%
+
+=== RESULTADOS CALCULADOS ===
+
+Dias ├║teis: 24
+Dias corridos: 31
+Rendimento bruto: R$ 714.86
+IR (22,5%): R$ 160.84
+Rendimento l├¡quido: R$ 554.01
+Saldo bruto total: R$ 55714.86
+Saldo l├¡quido (para resgate): R$ 55554.01
+
+=== COMPARA├ç├âO COM C6 BANK ===
+
+Bruto:   Esperado R$ 715.77 | Calculado R$ 714.86 | Ô£ù ERRO
+IR:      Esperado R$ 161.04 | Calculado R$ 160.84 | Ô£ù ERRO
+L├¡quido: Esperado R$ 554.73 | Calculado R$ 554.01 | Ô£ù ERRO
+Total l├¡quido (resgate): Esperado R$ 55554.73 | Calculado R$ 55554.01 | Ô£ù ERRO
+
+ÔØî ERRO! H├í diverg├¬ncias nos valores.
+
+Diferen├ºas:
+  Bruto: R$ -0.91
+  IR: R$ -0.20
+  L├¡quido: R$ -0.72
+  Total l├¡quido: R$ -0.72

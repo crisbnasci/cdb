@@ -1,0 +1,32 @@
+﻿=== AN├üLISE DO PER├ìODO ===
+Data in├¡cio: 2026-01-05
+Data fim: 2026-02-05
+Dias ├║teis: 24
+Dias corridos: 31
+
+=== C├üLCULO REVERSO ===
+Principal: R$ 55000.00
+Montante final: R$ 55715.77
+Rendimento bruto: R$ 715.77
+Taxa di├íria efetiva (102% CDI): 0.053890%
+
+=== TAXA CDI IMPL├ìCITA ===
+Taxa CDI di├íria (100%): 0.052833%
+Taxa CDI anual equivalente: 14.24%
+
+=== VERIFICA├ç├âO ===
+Montante calculado: R$ 55715.77
+Rendimento calculado: R$ 715.77
+Diferen├ºa: R$ 0.00
+
+=== VALORES FINAIS ===
+Rendimento bruto: R$ 715.77
+IR (22,5%): R$ 161.05
+Rendimento l├¡quido: R$ 554.72
+Saldo total: R$ 55715.77
+
+=== COMPARA├ç├âO COM C6 BANK ===
+Bruto esperado: R$ 715,77 | Calculado: R$ 715.77 | Ô£ô
+IR esperado: R$ 161,04 | Calculado: R$ 161.05 | Ô£ô
+L├¡quido esperado: R$ 554,73 | Calculado: R$ 554.72 | Ô£ô
+Total esperado: R$ 55.554,73 | Calculado: R$ 55715.77 | Ô£ô

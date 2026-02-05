@@ -1,0 +1,19 @@
+﻿=== DEBUG: VERIFICANDO C├üLCULO DO PER├ìODO ===
+
+Data in├¡cio: 2026-01-05
+Data fim: 2026-02-05
+Dias ├║teis (manual): 24
+
+Taxa CDI anual: 14.2369%
+Taxa CDI di├íria (100%): 0.05283307%
+Taxa efetiva di├íria (102%): 0.05388973%
+
+C├ílculo manual:
+  Montante final: R$ 55715.77
+  Rendimento bruto: R$ 715.77
+
+C├ílculo pela fun├º├úo:
+  Dias ├║teis: 24
+  Rendimento bruto: R$ 714.86
+
+Diferen├ºa: -0.91
