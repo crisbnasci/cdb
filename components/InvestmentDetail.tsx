@@ -275,53 +275,6 @@ const InvestmentDetail: React.FC<InvestmentDetailProps> = ({
         </div>
       </div>
 
-      {/* Resumo Acumulado (Estilo C6 Bank) */}
-      <div className="flex justify-center mb-6">
-        <div className="w-full max-w-md bg-[#1c1c1e] text-white rounded-2xl shadow-2xl overflow-hidden border border-neutral-800 font-sans">
-          <div className="p-5 flex justify-between items-center bg-[#1c1c1e] border-b border-neutral-800 pb-5">
-            <span className="font-bold text-sm tracking-wide text-gray-200">Valor liq. para resgate</span>
-            <span className="font-bold text-xl tracking-tight">
-              {formatCurrency(current ? current.netBalance : investment.initialValue)}
-            </span>
-          </div>
-
-          <div className="p-5 space-y-4 text-sm font-medium">
-            <div className="flex justify-between items-center text-gray-300">
-              <span>Total investido</span>
-              <span className="font-semibold text-white tracking-wide">
-                {formatCurrency(investment.initialValue)}
-              </span>
-            </div>
-
-            <div className="flex justify-between items-center text-gray-300">
-              <span>Rendimento</span>
-              <span className="font-bold text-green-500 tracking-wide">
-                +{formatCurrency(current ? current.accumulatedGross : 0)}
-              </span>
-            </div>
-
-            <div className="flex justify-between items-center text-gray-300">
-              <span>IOF sobre rendimento</span>
-              <span className="font-semibold text-white tracking-wide">R$ 0,00</span>
-            </div>
-
-            <div className="flex justify-between items-center text-gray-300">
-              <span>IR sobre rendimento</span>
-              <span className="font-bold text-red-400 tracking-wide">
-                -{formatCurrency(current ? (current.accumulatedGross * (current.irRate / 100)) : 0)}
-              </span>
-            </div>
-
-            <div className="pt-4 mt-2 border-t border-neutral-800 flex justify-between items-center text-gray-400">
-              <span>Valor em análise ou bloqueado</span>
-              <span className="flex items-center gap-1 font-semibold text-white">
-                R$ 0,00
-                <span className="material-symbols-outlined text-[16px] text-blue-400">info</span>
-              </span>
-            </div>
-          </div>
-        </div>
-      </div>
 
       <div className="grid grid-cols-1 xl:grid-cols-4 gap-6">
         {/* Evolution Table */}
@@ -467,6 +420,60 @@ const InvestmentDetail: React.FC<InvestmentDetailProps> = ({
           </div>
         </div>
       </div>
+
+      {/* Resumo Acumulado (Reposicionado e Estilizado) */}
+      <div className="flex flex-col gap-4 mt-6">
+        <h3 className="text-gray-800 text-lg font-bold flex items-center justify-center gap-2">
+          <span className="material-symbols-outlined text-green-600">savings</span>
+          Resumo Consolidado do Investimento
+        </h3>
+        <div className="overflow-hidden rounded-xl border border-gray-200 shadow-sm bg-white max-w-2xl mx-auto w-full">
+          <table className="w-full text-sm">
+            <tbody className="divide-y divide-gray-100">
+              <tr className="bg-green-50/50">
+                <td className="p-4 font-bold text-gray-700">Valor Líquido para Resgate</td>
+                <td className="p-4 text-right font-black text-xl text-green-700">
+                  {formatCurrency(current ? current.netBalance : investment.initialValue)}
+                </td>
+              </tr>
+              <tr className="hover:bg-gray-50 transition-colors">
+                <td className="p-4 text-gray-600">Total Investido (Principal)</td>
+                <td className="p-4 text-right font-bold text-gray-800">
+                  {formatCurrency(investment.initialValue)}
+                </td>
+              </tr>
+              <tr className="hover:bg-gray-50 transition-colors">
+                <td className="p-4 text-gray-600">Rendimento Bruto Acumulado</td>
+                <td className="p-4 text-right font-bold text-green-600">
+                  +{formatCurrency(current ? current.accumulatedGross : 0)}
+                </td>
+              </tr>
+              <tr className="hover:bg-gray-50 transition-colors">
+                <td className="p-4 text-gray-600">IOF</td>
+                <td className="p-4 text-right font-medium text-gray-500">
+                  R$ 0,00
+                </td>
+              </tr>
+              <tr className="hover:bg-gray-50 transition-colors">
+                <td className="p-4 text-gray-600">Imposto de Renda (Estimado)</td>
+                <td className="p-4 text-right font-bold text-red-500">
+                  -{formatCurrency(current ? (current.accumulatedGross * (current.irRate / 100)) : 0)}
+                </td>
+              </tr>
+              <tr className="hover:bg-gray-50 transition-colors">
+                <td className="p-4 text-gray-600 flex items-center gap-1">
+                  Valor Bloqueado
+                  <span className="material-symbols-outlined text-[16px] text-gray-400" title="Valores em processamento ou bloqueados">info</span>
+                </td>
+                <td className="p-4 text-right font-medium text-gray-400">
+                  R$ 0,00
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
 
 
 
